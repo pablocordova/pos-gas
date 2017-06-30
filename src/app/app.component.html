@@ -1,3 +1,41 @@
-<h1>
-  {{title}}
-</h1>
+<div class="container">
+    <!-- Div that contain date-- >
+    <div class="row">
+        
+    </div>
+    <!-- Main options-->
+    <div class="row justify-content-center">
+        <div class="col-sm-8">
+            <label class="custom-control custom-radio">
+                <input type="radio" name="radio" id="radio1" class="custom-control-input">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">LLEVO GAS</span>
+            </label>
+            <label class="custom-control custom-radio">
+                <input type="radio" name="radio" id="radio2" class="custom-control-input">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">PAGO</span>
+            </label>
+            <label class="custom-control custom-radio">
+                <input type="radio" name="radio" id="radio3" class="custom-control-input">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">CONSULTA</span>
+            </label>
+        </div>
+    </div>
+    <!-- Client Form -->
+    <div class="row">
+        <div>
+            <label class="col-sm-3 control-label">Cliente</label>
+        </div>
+        
+        <div class="col-sm-5 selectContainer">
+            <select class="form-control" name="clients">
+                <option value="">Elegir un cliente</option>
+                <option value="uno">Pedro</option>
+                <option value="dos">Juan</option>
+            </select>
+        </div>
+    </div>
+    
+</div>
