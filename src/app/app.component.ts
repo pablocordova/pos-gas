@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
     public buttonSave = false;
     public history = false;
     public modifyClients = false;
+    public ballonsSells = false;
 
     client = new Client('0', '', '', '', '35');
     data: string;
@@ -84,7 +85,6 @@ export class AppComponent implements OnInit {
         // When sellBallons is 0 meaning that this data is only a pay
         if(!this.optionSale) {
             sellBallons = 0;
-            receivedBallons = 0;
         }
 
         // Fill all data
@@ -214,6 +214,7 @@ export class AppComponent implements OnInit {
                 this.payButton = true;
                 this.comment = true;
                 this.buttonSave = true;
+                this.ballonsSells = true;
                 // hidde blocks
                 this.history = false;
                 this.modifyClients = false;
@@ -225,10 +226,12 @@ export class AppComponent implements OnInit {
                 this.payButton = false;
                 this.comment = true;
                 this.buttonSave = true;
+                this.ballons = true;
+                this.ballonsSells = false;
                 // rest block hidden
-                this.ballons = false;
                 this.history = false;
                 this.payButton = false;
+
                 break;
             case "query":
                 this.clientForm = true;
