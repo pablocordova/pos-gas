@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Client } from './client';
-//import { Sale } from './sale';
+import { Sale } from './sale';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Injectable } from '@angular/core';
+import { mongoose } from 'mongoose';
 
 @Component({
      selector: 'app-root',
@@ -22,16 +23,19 @@ export class AppComponent implements OnInit {
     public history = false;
     public modifyClients = false;
 
+    client = new Client('0', '', '', '', '');
     data: string;
-    client = new Client('0','','','','');
-    //sale = new Sale();
+    sale = new Sale('', '', 0, 0, 0, 0, '');
+    sale_data: string;
     allclients;
     lastClientSelected: HTMLElement;
     currentTime: string;
     payAmount: number;
+    commenText: string;
     client_fixprice;
     sellBallons;
     receivedBallons;
+    currentIdClient: mongoose.Types.ObjectId;
     
     constructor(private http: Http) {
     }
@@ -53,9 +57,26 @@ export class AppComponent implements OnInit {
      */
 
     saveSale() {
-        /*this.http.post('/api/sales', )*/
-        console.log(this.sellBallons);
-        console.log(this.receivedBallons);
+
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let requestOptions = new RequestOptions({ headers: headers });
+
+        // Fill all data
+        this.sale.date = this.currentTime;
+        this.sale.clientid = this.currentIdClient;
+        this.sale.gassell = this.sellBallons;
+        this.sale.gasreceived = this.receivedBallons;
+        this.sale.totalpaid = this.payAmount;
+        this.sale.totalreal = this.sellBallons*this.client_fixprice;
+        this.sale.remark = this.commenText;
+
+        this.sale_data = JSON.stringify(this.sale);
+        this.http.post('/api/sales', this.sale_data, requestOptions).subscribe(res => {
+            let result = res.json();
+        });
+
+        console.log(this.sale);
     }
 
     /**
@@ -68,7 +89,7 @@ export class AppComponent implements OnInit {
                 this.payAmount = 0;
                 break;
             case 1:
-                this.payAmount = this.client_fixprice;
+                this.payAmount = this.sellBallons*this.client_fixprice;
                 break;
         }
     }
@@ -88,6 +109,8 @@ export class AppComponent implements OnInit {
         this.lastClientSelected = currentClient;
         // Get all information about specific client
         let idClient = event.path[1].firstElementChild.innerText;
+        // Save the current id as global
+        this.currentIdClient = idClient;
         let client_api = '/api/clients/' + idClient;
         this.http.get(client_api).subscribe(res => {
             let result = res.json();

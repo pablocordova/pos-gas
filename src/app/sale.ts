@@ -1,8 +1,9 @@
-/*
+import * as mongoose from 'mongoose';
+
 export class Sale{
     constructor(
         public date: String,
-        public clientid: Schema.Types.ObjectId,
+        public clientid: mongoose.Schema.Types.ObjectId,
         public gassell: Number,
         public gasreceived: Number,
         public totalpaid: Number,
@@ -10,4 +11,3 @@ export class Sale{
         public remark: String
     ){}
 }
-*/

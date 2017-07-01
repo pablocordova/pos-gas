@@ -7,6 +7,22 @@ var Sales = require('../models/sale').Sale;
 // To create sale
 router.post('/', function(req, res) {
 
+    var sale = new Sales();
+    sale.date = req.body.date;
+    sale.clientid = req.body.clientid;
+    sale.gassell = req.body.gassell;
+    sale.gasreceived = req.body.gasreceived;
+    sale.totalpaid = req.body.totalpaid;
+    sale.totalreal = req.body.totalreal;
+    sale.remark = req.body.remark;
+
+    sale.save().then(function() {
+        var result = JSON.stringify({ result: 'success' });
+        res.send(result);
+    }, function(err) {
+        var result = JSON.stringify({ result: 'error' });
+        res.send(result);
+    });
 });
 
 // To get sales of specific client
