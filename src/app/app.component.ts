@@ -169,11 +169,17 @@ export class AppComponent implements OnInit {
                 for(let i = 0; i < result.length; i++) {
                     money_pay += result[i].totalpaid;
                     money_total_real += result[i].totalreal;
-                    ballonSells_amount += result[i].gassell;
+                    if (result[i].gassell == 0) {
+                        result[i].gassell = '';
+                        result[i].totalreal = '';
+                        result[i].doubt = '';
+                    } else {
+                        ballonSells_amount += result[i].gassell;
+                        //this.hdd.push(this.historyData);
+                        last_day_buy = result[i].date;
+                        result[i].doubt = result[i].totalreal - result[i].totalpaid;
+                    }
                     ballonReceived_amount += result[i].gasreceived;
-                    //this.hdd.push(this.historyData);
-                    last_day_buy = result[i].date;
-                    result[i].doubt = result[i].totalreal - result[i].totalpaid;
                     this.histories.push(result[i]);
                 }
             }
