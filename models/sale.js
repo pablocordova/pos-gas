@@ -6,11 +6,11 @@ mongoose.connect("mongodb://localhost/posgas");
 
 var sale_schema = new Schema({
     date: String,
-    clientid: String,
-    gassell: String,
-    gasreceived: String,
-    totalpaid: String,
-    totalreal: String,
+    clientid: Schema.Types.ObjectId,
+    gassell: Number,
+    gasreceived: Number,
+    totalpaid: Number,
+    totalreal: Number,
     remark: String
 });
 

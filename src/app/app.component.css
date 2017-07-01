@@ -9,3 +9,7 @@ label {
 .ballons-sells, .ballons-received {
     display: inline-block;
 }
+/* For table clients */
+.clients-table:hover {
+    cursor: pointer;
+}

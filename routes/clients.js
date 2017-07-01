@@ -44,12 +44,20 @@ router.post('/', function(req, res) {
 
 // To get All users
 router.get('/', function(req, res) {
-
+    Client.find({}, function(err, docs) {
+        if(err) return handleError(err);
+        res.send(docs);
+    });
 });
 
 // To get one user
 router.get('/:id', function(req, res) {
-
+    let idclient = mongoose.Types.ObjectId(req.params.id);
+    Client.findOne({ _id: idclient }, function(err, docs) {
+        if(err) return handleError(err);
+        res.send(docs);
+    })
+    
 });
 
 module.exports = router;
