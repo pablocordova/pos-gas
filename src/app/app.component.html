@@ -7,42 +7,172 @@
     <div class="row justify-content-center">
         <div class="col-sm-8">
             <label class="custom-control custom-radio">
-                <input type="radio" name="radio" id="radio1" class="custom-control-input">
+                <input type="radio" name="radio" id="radio1" class="custom-control-input" (click)="show('sale')">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">LLEVO GAS</span>
             </label>
             <label class="custom-control custom-radio">
-                <input type="radio" name="radio" id="radio2" class="custom-control-input">
+                <input type="radio" name="radio" id="radio2" class="custom-control-input" (click)="show('pay')">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">PAGO</span>
             </label>
             <label class="custom-control custom-radio">
-                <input type="radio" name="radio" id="radio3" class="custom-control-input">
+                <input type="radio" name="radio" id="radio3" class="custom-control-input" (click)="show('query')">
                 <span class="custom-control-indicator"></span>
                 <span class="custom-control-description">CONSULTA</span>
             </label>
         </div>
     </div>
     <!-- Client Form -->
-    <div class="row">
-        <div>
-            <label class="col-sm-3 control-label">Cliente</label>
-        </div>
-        
-        <div class="col-sm-5 selectContainer">
+    <div class="row" *ngIf="clientForm">
+        <div class="col-sm-6">
+            <label>CLIENTE</label>
+
             <select class="form-control" name="clients">
                 <option value="">Elegir un cliente</option>
                 <option value="uno">Pedro</option>
                 <option value="dos">Juan</option>
             </select>
+           
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalWindow">Crear cliente</button>
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalWindow">Modificar cliente</button>
+           
+            <label>A este cliente se vende el gas a 35 soles</label>
+        </div>
+        <div class="col-sm-6">
+            <label>CUENTAS</label>
+            <div class="client-info">
+                <p>DEBE 1 balon</p>
+                <p>DEBE 50 soles</p>
+                <p>LLEVO GAS EL 03 DE MARZO DEL 2017</p>
+            </div>
         </div>
     </div>
-    
+    <!-- Data about sale -->
+    <div class="row" *ngIf="ballons">
+        <label>BALONES</label>
+        <div class="col-sm-12">
+            <div class="col-sm-3 ballons-sells">
+                <label>Balones vendidos</label>
+                <div class="col-sm-6">
+                    <select class=" form-control" name="sellBallons">
+                        <option value="one">1</option>
+                        <option value="two">2</option>
+                        <option value="three">3</option>
+                        <option value="four">4</option>
+                        <option value="five">5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-3 ballons-received">
+                <label>Balones Recibidos</label>
+                <div class="col-sm-6">
+                    <select class="form-control" name="receivedBallons">
+                        <option value="zero">0</option>
+                        <option value="one" selected="selected">1</option>
+                        <option value="two">2</option>
+                        <option value="three">3</option>
+                        <option value="four">4</option>
+                        <option value="five">5</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="pay">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>PAGO</label>
+                <div *ngIf="payButton">
+                    <input type="button" name="Nopay" value="No pago nada" class="btn btn-primary">
+                    <input type="button" name="completepay" value="Pago completo" class="btn btn-primary ">
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" name="totalpay" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="comment">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Comentario</label>
+                <textarea name="comment" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="buttonSave">
+        <input type="button" name="save" class="btn btn-primary" value="GUARDAR">
+    </div>
+
+    <div class="row" *ngIf="history">
+        <div class="col-sm-12">
+            <label>HISTORIAL</label>
+            <table class="table">
+                <thead></thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Balones vendidos</th>
+                    <th>Pago</th>
+                    <th>Balones recibidos</th>
+                    <th>Comentario</th>
+                </tr>
+                <tbody>
+                    <tr>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-<h1>
-  {{title}}
-</h1>
+<!-- Modal to create and modify clients-->
+<div class="modal fade" id="modalWindow">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">DATOS DEL CLIENTE</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="/api/clients" method="post">
+                    <input name="idclient" value="0" hidden [(ngModel)]="client.idclient">
+                    <div class="form-group">
+                        <label class="form-control-label">Nombre completo</label>
+                        <input type="text" class="form-control" name="completename" [(ngModel)]="client.completename">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Dirección</label>
+                        <input type="text" class="form-control" name="address" [(ngModel)]="client.address">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Telefono</label>
+                        <input type="text" class="form-control" name="tel" [(ngModel)]="client.tel">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Precio Fijo</label>
+                        <input type="text" class="form-control" name="fixprice" [(ngModel)]="client.fixprice">
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" (click)="saveClient()">GUARDAR</button>
+            </div>
+    </div>
+</div>
 
 <span id="date_element"></span>
 

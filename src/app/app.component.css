@@ -1,3 +1,11 @@
 label {
     font-size: 20px;
 }
+.client-info {
+    border: 1px solid grey;
+    border-radius: 10px;
+
+}
+.ballons-sells, .ballons-received {
+    display: inline-block;
+}
