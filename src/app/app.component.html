@@ -124,19 +124,21 @@
                     <tr>
                         <th>Fecha</th>
                         <th>Balones vendidos</th>
+                        <th>Balones recibidos</th>
                         <th>Pago</th>
                         <th>Debio Pagar</th>
-                        <th>Balones recibidos</th>
+                        <th>Debe</th>
                         <th>Comentario</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let history of hdd">
+                    <tr *ngFor="let history of histories">
                         <td>{{history.date}}</td>
                         <td>{{history.gassell}}</td>
+                        <td>{{history.gasreceived}}</td>
                         <td>{{history.totalpaid}}</td>
                         <td>{{history.totalreal}}</td>
-                        <td>{{history.gasreceived}}</td>
+                        <td>{{history.doubt}}</td>
                         <td>{{history.remark}}</td>
                     </tr>
                 </tbody>

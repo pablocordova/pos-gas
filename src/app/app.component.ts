@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
     data: string;
     sale = new Sale('', '', 0, 0, 0, 0, '');
     sale_data: string;
-    hdd;
+    histories;
     allclients;
     lastClientSelected: HTMLElement;
     currentTime: string;
@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(){
-        this.hdd = [];
+        this.histories = [];
         this.ballonsDoubt = 0;
         this.moneyDoubt = 0;
         this.lastDateSell = '';
@@ -157,7 +157,7 @@ export class AppComponent implements OnInit {
         this.http.get(sale_client_api).subscribe(res => {
             let result = res.json();
             //Case result if different of null fill the information
-            this.hdd = [];
+            this.histories = [];
             //variable to calculate ballonSells
             let ballonSells_amount = 0;
             let ballonReceived_amount = 0;
@@ -173,7 +173,8 @@ export class AppComponent implements OnInit {
                     ballonReceived_amount += result[i].gasreceived;
                     //this.hdd.push(this.historyData);
                     last_day_buy = result[i].date;
-                    this.hdd.push(result[i]);
+                    result[i].doubt = result[i].totalreal - result[i].totalpaid;
+                    this.histories.push(result[i]);
                 }
             }
             this.lastDateSell = last_day_buy;
