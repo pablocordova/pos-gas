@@ -28,6 +28,8 @@ export class AppComponent implements OnInit {
     allclients;
     lastClientSelected: HTMLElement;
     currentTime: string;
+    currentDate: string; //added by jaime
+    currentTimeandDate: string;
     payAmount: number;
     client_fixprice;
     sellBallons;
@@ -198,10 +200,9 @@ export class AppComponent implements OnInit {
         var d = date.getDate();
         var day = date.getDay();
         var h_ch, m_ch, s_ch;
-        var months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'Jully', 'August', 
-        'September', 'October', 'November', 'December');
+        var months = new Array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre');
 
-        var days = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+        var days = new Array('Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado');
 
         if (h == 0){
             h = 12;
@@ -226,10 +227,11 @@ export class AppComponent implements OnInit {
             s_ch = "0"+s;
         }else{
             s_ch = s;
-        }
+        } 
 
-        this.currentTime = h_ch + ":" + m_ch + ":" + s_ch + " " + diem;
-        
+        this.currentDate = days[day] + " " + d + " de " + months[month] + ", " + year + " ";
+        this.currentTime = " " + h_ch + ":" + m_ch + ":" + s_ch + " " + diem;
+        this.currentTimeandDate = this.currentDate + " " + " " + " " + this.currentTime;
         setTimeout(() => { this.date_time(); }, 1000);
 
     }   
