@@ -23,10 +23,11 @@ export class AppComponent implements OnInit {
     public history = false;
     public modifyClients = false;
 
-    client = new Client('0', '', '', '', '');
+    client = new Client('0', '', '', '', '35');
     data: string;
     sale = new Sale('', '', 0, 0, 0, 0, '');
     sale_data: string;
+    hdd;
     allclients;
     lastClientSelected: HTMLElement;
     currentTime: string;
@@ -38,11 +39,24 @@ export class AppComponent implements OnInit {
     sellBallons;
     receivedBallons;
     currentIdClient: mongoose.Types.ObjectId;
+    //option to differentiate if is only sale or pay
+    optionSale;
+    //
+    ballonsDoubt;
+    moneyDoubt;
+    lastDateSell;
+    //
+    updateClient;
     
     constructor(private http: Http) {
     }
 
     ngOnInit(){
+        this.hdd = [];
+        this.ballonsDoubt = 0;
+        this.moneyDoubt = 0;
+        this.lastDateSell = '';
+        this.currentIdClient = '0';
         // Init initial sale amount
         this.payAmount = 0;
         this.sellBallons = '1';
@@ -64,13 +78,22 @@ export class AppComponent implements OnInit {
         headers.append('Content-Type', 'application/json');
         let requestOptions = new RequestOptions({ headers: headers });
 
+        let sellBallons = this.sellBallons;
+        let receivedBallons = this.receivedBallons;
+        // I going to make the difference if is to sell gas or only pay
+        // When sellBallons is 0 meaning that this data is only a pay
+        if(!this.optionSale) {
+            sellBallons = 0;
+            receivedBallons = 0;
+        }
+
         // Fill all data
-        this.sale.date = this.currentTime;
+        this.sale.date = this.currentTimeandDate;
         this.sale.clientid = this.currentIdClient;
-        this.sale.gassell = this.sellBallons;
-        this.sale.gasreceived = this.receivedBallons;
+        this.sale.gassell = sellBallons;
+        this.sale.gasreceived = receivedBallons;
         this.sale.totalpaid = this.payAmount;
-        this.sale.totalreal = this.sellBallons*this.client_fixprice;
+        this.sale.totalreal = sellBallons*this.client_fixprice;
         this.sale.remark = this.commenText;
 
         this.sale_data = JSON.stringify(this.sale);
@@ -78,7 +101,6 @@ export class AppComponent implements OnInit {
             let result = res.json();
         });
 
-        console.log(this.sale);
     }
 
     /**
@@ -113,13 +135,21 @@ export class AppComponent implements OnInit {
         let idClient = event.path[1].firstElementChild.innerText;
         // Save the current id as global
         this.currentIdClient = idClient;
+        //And current client save id
+        //this.client.idclient = idClient;
+
         let client_api = '/api/clients/' + idClient;
         this.http.get(client_api).subscribe(res => {
             let result = res.json();
             // show button modify client
             this.modifyClients = true;
             this.client_fixprice = result.fixprice;
-            console.log(result);
+            //update data
+            this.client.idclient = result._id;
+            this.client.address = result.address;
+            this.client.completename = result.completename;
+            this.client.fixprice = result.fixprice;
+            this.client.tel = result.tel;
         });
 
         // Also get information about his purchases
@@ -127,9 +157,30 @@ export class AppComponent implements OnInit {
         this.http.get(sale_client_api).subscribe(res => {
             let result = res.json();
             //Case result if different of null fill the information
-            if (!result) {
-                console.log('there are information about sale');
+            this.hdd = [];
+            //variable to calculate ballonSells
+            let ballonSells_amount = 0;
+            let ballonReceived_amount = 0;
+            let money_pay = 0;
+            let money_total_real = 0;
+            let last_day_buy = '';
+            if (result.length > 0) {
+                //Ok fill the table with information
+                for(let i = 0; i < result.length; i++) {
+                    money_pay += result[i].totalpaid;
+                    money_total_real += result[i].totalreal;
+                    ballonSells_amount += result[i].gassell;
+                    ballonReceived_amount += result[i].gasreceived;
+                    //this.hdd.push(this.historyData);
+                    last_day_buy = result[i].date;
+                    this.hdd.push(result[i]);
+                }
             }
+            this.lastDateSell = last_day_buy;
+            this.ballonsDoubt = ballonSells_amount - ballonReceived_amount;
+            this.moneyDoubt = money_total_real - money_pay;
+
+
             //console.log(result);
         });
 
@@ -145,7 +196,6 @@ export class AppComponent implements OnInit {
             let result = res.json();
             // Now fill the combobox or table I am thinking what I'll use
             this.allclients = result;
-            console.log(result);
         });
     }
 
@@ -156,6 +206,7 @@ export class AppComponent implements OnInit {
     show(type) {
         switch (type) {
             case "sale":
+                this.optionSale = true;
                 this.clientForm = true;
                 this.ballons = true;
                 this.pay = true;
@@ -167,6 +218,7 @@ export class AppComponent implements OnInit {
                 this.modifyClients = false;
                 break;
             case "pay":
+                this.optionSale = false;
                 this.clientForm = true;
                 this.pay = true;
                 this.payButton = false;
@@ -189,11 +241,24 @@ export class AppComponent implements OnInit {
         }
     }
 
+    statusButton(type) {
+        //case save reset values
+        if(type == 0) {
+            this.modifyClients = false;
+            this.updateClient = false;
+            this.client.idclient = '0';
+            this.client.completename = '';
+            this.client.address = '';
+            this.client.tel = '';
+            this.client.fixprice = '35';
+        }
+    }
+
     /**
      *    To call an api to create or update data client
      */
     saveClient() {
-
+               
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         let requestOptions = new RequestOptions({ headers: headers });
@@ -202,8 +267,8 @@ export class AppComponent implements OnInit {
 
         this.http.post('/api/clients', this.data, requestOptions).subscribe(res => {
             let result = res.json();
-            console.log('result saving');
-            console.log(result);
+            this.getClients();
+            // Here I need to update the table where the clients are showed
         });
     }
 

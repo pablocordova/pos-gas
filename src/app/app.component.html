@@ -36,24 +36,24 @@
             <input type="text" name="clients" class="form-control" [(ngModel)]="clientSearch">
             <table class="table clients-table">
                 <tbody>
-                    <tr *ngFor="let c of allclients" (click)="selectedClient($event)">
+                    <tr *ngFor="let c of allclients | tableFilter: clientSearch" (click)="selectedClient($event)">
                         <td hidden>{{c._id}}</td>
                         <td>{{c.completename}}</td>
                     </tr>
                 </tbody>
             </table>
            
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalWindow">Crear cliente</button>
-            <button *ngIf="modifyClients" type="button" class="btn btn-default" data-toggle="modal" data-target="#modalWindow">Modificar cliente</button>
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalWindow" (click)="statusButton(0)">Crear cliente</button>
+            <button *ngIf="modifyClients" type="button" class="btn btn-default" data-toggle="modal" data-target="#modalWindow" (click)="statusButton(1)">Modificar cliente</button>
             
         </div>
         <div class="col-sm-6">
             <label>CUENTAS</label>
             <div class="client-info">
-                <p>DEBE 1 balon</p>
-                <p>DEBE 50 soles</p>
-                <p>LLEVO GAS EL 03 DE MARZO DEL 2017</p>
-                <p>A este cliente se vende el gas a 35 soles</p>
+                <p>Debe {{ballonsDoubt}} balon</p>
+                <p>Debe {{moneyDoubt}} soles</p>
+                <p>Llevo gas el {{lastDateSell}}</p>
+                <p>Precio de venta: {{client_fixprice}} soles</p>
             </div>
         </div>
     </div>
@@ -98,7 +98,7 @@
                     <input type="button" name="completepay" value="Pago completo" class="btn btn-primary " (click)="salePay(1)">
                 </div>
                 <div class="col-sm-2">
-                    <input type="text" name="totalpay" class="form-control" value="{{payAmount}}">
+                    <input type="text" name="totalpay" class="form-control" [(ngModel)]="payAmount">
                 </div>
             </div>
         </div>
@@ -125,17 +125,19 @@
                         <th>Fecha</th>
                         <th>Balones vendidos</th>
                         <th>Pago</th>
+                        <th>Debio Pagar</th>
                         <th>Balones recibidos</th>
                         <th>Comentario</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
+                    <tr *ngFor="let history of hdd">
+                        <td>{{history.date}}</td>
+                        <td>{{history.gassell}}</td>
+                        <td>{{history.totalpaid}}</td>
+                        <td>{{history.totalreal}}</td>
+                        <td>{{history.gasreceived}}</td>
+                        <td>{{history.remark}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -179,7 +181,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary" (click)="saveClient()">GUARDAR</button>
+                <button type="submit" class="btn btn-primary" data-dismiss="modal" (click)="saveClient()">GUARDAR</button>
             </div>
     </div>
 </div>

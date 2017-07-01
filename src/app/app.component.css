@@ -13,3 +13,21 @@ label {
 .clients-table:hover {
     cursor: pointer;
 }
+
+.clients-table {
+    height: 150px;
+    position: relative;
+}
+
+
+.clients-table tbody {
+    overflow-y: scroll;
+    position: absolute;
+    height: 150px;
+    width: 100%;
+}
+
+.clients-table tbody tr {
+    width: 100%;
+    display: inline-table;
+}
