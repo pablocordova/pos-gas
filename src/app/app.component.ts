@@ -186,7 +186,11 @@ export class AppComponent implements OnInit {
         this.http.get(client_api).subscribe(res => {
             let result = res.json();
             // show button modify client
-            this.modifyClients = true;
+
+            if (this.newClients == true) {
+                this.modifyClients = true;
+            }
+
             this.client_fixprice = result.fixprice;
             //update data
             this.client.idclient = result._id;
@@ -229,27 +233,6 @@ export class AppComponent implements OnInit {
             this.lastDateSell = last_day_buy;
             this.ballonsDoubt = ballonSells_amount - ballonReceived_amount;
             this.moneyDoubt = money_total_real - money_pay;
-
-            //
-            //this.tableElement = document.getElementById('table-history');
-            //let rows = this.tableElement.getElementsByTagName('tr');
-            let dd = document.getElementsByClassName('table-history-rows');
-            console.log(dd);
-            console.log(dd.length);
-            /*
-            for (var i = 0; i < dd.length; ++i) {
-                dd[i].style.backgroundColor = 'green';
-            }
-            */
-            //var tableElement = document.getElementById('table-history-rows'); 
-/*
-            console.log(rows.length);
-            
-            for (var i = 0; i < rows.length; ++i) {
-                console.log(rows[i]);
-                rows[i].style.backgroundColor = 'green';
-            }
-            */
             
         });
     }
