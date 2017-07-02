@@ -4,6 +4,7 @@ import { Sale } from './sale';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { mongoose } from 'mongoose';
+import * as swal from 'sweetalert';
 
 @Component({
      selector: 'app-root',
@@ -107,12 +108,12 @@ export class AppComponent implements OnInit {
 
         // Check input 'pago' is correct
         if(!this.isNumber(this.payAmount)) {
-            alert('Error, cantidad de pago no es un número');
+            swal("Error", "Escribir el pago correctamente", "error");
             return;
         }
 
         if (this.currentIdClient == '0') {
-            alert('Error, Elegir un cliente');
+            swal("Error", "Elegir un cliente", "error");
             return;
         }
         
@@ -139,7 +140,7 @@ export class AppComponent implements OnInit {
             this.pay = false;
             this.comment = false;
             this.buttonSave = false;
-            alert('Registrado');
+            swal("Registrado", "", "success");
             this.updateInfoClient(this.currentIdClient);
         });
 
@@ -326,7 +327,7 @@ export class AppComponent implements OnInit {
 
         // Check input 'pago' is correct
         if(!this.isNumber(this.client.fixprice)) {
-            alert('Error, cantidad de pago no es un número');
+            swal("Error, cantidad de pago no es un número");
             return;
         }
                        
