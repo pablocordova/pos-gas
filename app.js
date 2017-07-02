@@ -8,6 +8,7 @@ var Sale = require('./models/sale').Sale;
 // Router
 var clients = require('./routes/clients');
 var sales = require('./routes/sales');
+var verify = require('./routes/verify');
 
 
 var app = express();
@@ -21,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Api routes
 app.use('/api/clients', clients);
 app.use('/api/sales', sales);
+app.use('/api/verify', verify);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

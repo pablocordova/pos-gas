@@ -1,14 +1,11 @@
 label {
     font-size: 20px;
 }
-.client-info {
-    border: 1px solid grey;
-    border-radius: 10px;
 
-}
 .ballons-sells, .ballons-received {
     display: inline-block;
 }
+
 /* For table clients */
 .clients-table:hover {
     cursor: pointer;
@@ -18,7 +15,6 @@ label {
     height: 150px;
     position: relative;
 }
-
 
 .clients-table tbody {
     overflow-y: scroll;
@@ -30,4 +26,60 @@ label {
 .clients-table tbody tr {
     width: 100%;
     display: inline-table;
+}
+
+.colorBackgroundCell{
+    background-color: #CEECF5;
+} 
+
+.dateSize {
+    font-size: 20px;
+    color: white;
+    margin-bottom: 0px;
+}
+
+.mainTitle {
+    color: white;
+}
+
+.mainOptions{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.blockTitle {
+    font-weight: bold;
+}
+.card-color {
+    background-color: #58ACFA;
+    color: white;
+    font-weight: bold;
+}
+
+.buttonNewClient {
+    margin-bottom: 10px;
+}
+
+.card-info-client {
+    padding-bottom: 0px;
+}
+
+.save-button {
+    margin-top: 20px;
+}
+/* To modify scroll*/
+
+::-webkit-scrollbar {
+    width: 2em;
+    height: 2em
+}
+::-webkit-scrollbar-button {
+    background: #ccc
+}
+::-webkit-scrollbar-track-piece {
+    background: #888
+}
+::-webkit-scrollbar-thumb {
+    background: #eee
 }

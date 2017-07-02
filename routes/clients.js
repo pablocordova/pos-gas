@@ -12,7 +12,7 @@ router.post('/', function(req, res) {
     // Case save
     if (req.body.idclient == '0') {
         var data = new Client();
-        data.completename = req.body.completename;
+        data.completename = req.body.completename.toUpperCase();
         data.address = req.body.address;
         data.tel = req.body.tel;
         data.fixprice = req.body.fixprice;

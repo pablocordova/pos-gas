@@ -31,6 +31,8 @@ export class AppComponent implements OnInit {
     histories;
     allclients;
     lastClientSelected: HTMLElement;
+    tableElement: HTMLElement;
+    tableRows: HTMLElement;
     currentTime: string;
     currentDate: string; //added by jaime
     currentTimeandDate: string;
@@ -40,6 +42,7 @@ export class AppComponent implements OnInit {
     sellBallons;
     receivedBallons;
     currentIdClient: mongoose.Types.ObjectId;
+    id_test: mongoose.Types.ObjectId;
     //option to differentiate if is only sale or pay
     optionSale;
     //
@@ -58,6 +61,7 @@ export class AppComponent implements OnInit {
         this.moneyDoubt = 0;
         this.lastDateSell = '';
         this.currentIdClient = '0';
+        this.id_test = '0';
         // Init initial sale amount
         this.payAmount = 0;
         this.sellBallons = '1';
@@ -67,6 +71,26 @@ export class AppComponent implements OnInit {
         
         // Calculate real time clock
         this.date_time();
+
+        this.verifySystem();
+    }
+
+    verifySystem() {
+        let mainNavBar = document.getElementById('mainNavBar');
+
+        this.http.get('/api/verify').subscribe(res => {
+
+            let result = res.json();
+            if (result.status == 1) {
+                mainNavBar.style.backgroundColor ='#3F51B5';
+            } else {
+                mainNavBar.style.backgroundColor ='#FF0000';
+            }
+        }, error => {
+            mainNavBar.style.backgroundColor ='#FF0000';
+        });
+
+        setTimeout(() => { this.verifySystem(); }, 1000);
     }
 
     /**
@@ -99,6 +123,12 @@ export class AppComponent implements OnInit {
         this.sale_data = JSON.stringify(this.sale);
         this.http.post('/api/sales', this.sale_data, requestOptions).subscribe(res => {
             let result = res.json();
+            this.ballons = false;
+            this.pay = false;
+            this.comment = false;
+            this.buttonSave = false;
+            alert('Registrado');
+            this.updateInfoClient(this.currentIdClient);
         });
 
     }
@@ -135,9 +165,11 @@ export class AppComponent implements OnInit {
         let idClient = event.path[1].firstElementChild.innerText;
         // Save the current id as global
         this.currentIdClient = idClient;
-        //And current client save id
-        //this.client.idclient = idClient;
+        //And current client save id     
+        this.updateInfoClient(idClient);  
+    }
 
+    updateInfoClient(idClient) {
         let client_api = '/api/clients/' + idClient;
         this.http.get(client_api).subscribe(res => {
             let result = res.json();
@@ -175,7 +207,6 @@ export class AppComponent implements OnInit {
                         result[i].doubt = '';
                     } else {
                         ballonSells_amount += result[i].gassell;
-                        //this.hdd.push(this.historyData);
                         last_day_buy = result[i].date;
                         result[i].doubt = result[i].totalreal - result[i].totalpaid;
                     }
@@ -187,12 +218,29 @@ export class AppComponent implements OnInit {
             this.ballonsDoubt = ballonSells_amount - ballonReceived_amount;
             this.moneyDoubt = money_total_real - money_pay;
 
-
-            //console.log(result);
+            //
+            //this.tableElement = document.getElementById('table-history');
+            //let rows = this.tableElement.getElementsByTagName('tr');
+            let dd = document.getElementsByClassName('table-history-rows');
+            console.log(dd);
+            console.log(dd.length);
+            /*
+            for (var i = 0; i < dd.length; ++i) {
+                dd[i].style.backgroundColor = 'green';
+            }
+            */
+            //var tableElement = document.getElementById('table-history-rows'); 
+/*
+            console.log(rows.length);
+            
+            for (var i = 0; i < rows.length; ++i) {
+                console.log(rows[i]);
+                rows[i].style.backgroundColor = 'green';
+            }
+            */
+            
         });
-
-         
-     }
+    }
 
     /**
      *    When tha page is loaded, get all clients
@@ -278,7 +326,7 @@ export class AppComponent implements OnInit {
         this.http.post('/api/clients', this.data, requestOptions).subscribe(res => {
             let result = res.json();
             this.getClients();
-            // Here I need to update the table where the clients are showed
+            
         });
     }
 

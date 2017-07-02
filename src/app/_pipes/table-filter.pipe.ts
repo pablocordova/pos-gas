@@ -11,7 +11,7 @@ export class TableFilterPipe implements PipeTransform {
             return value;
         }
         // Apply the filter
-        return value.filter(items => items.completename.indexOf(args) >= 0);
+        return value.filter(items => items.completename.toLowerCase().indexOf(args.toLowerCase()) >= 0);
 
     }
 }
