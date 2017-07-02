@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
     public buttonSave = false;
     public history = false;
     public modifyClients = false;
+    public newClients = false;
     public ballonsSells = false;
 
     client = new Client('0', '', '', '', '35');
@@ -280,6 +281,7 @@ export class AppComponent implements OnInit {
                 this.comment = true;
                 this.buttonSave = true;
                 this.ballonsSells = true;
+                this.newClients = true;
                 // hidde blocks
                 this.history = false;
                 this.modifyClients = false;
@@ -302,6 +304,8 @@ export class AppComponent implements OnInit {
                 this.payAmount = 0;
         		this.sellBallons = '0';
         		this.receivedBallons = '0';
+                this.modifyClients = false;
+                this.newClients = false;
                 break;
             case "query":
                 this.clientForm = true;
@@ -312,6 +316,8 @@ export class AppComponent implements OnInit {
                 this.comment = false;
                 this.buttonSave = false;
                 this.payAmount = 0;
+                this.modifyClients = false;
+                this.newClients = false;
 
                 break;
         }
