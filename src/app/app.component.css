@@ -57,6 +57,9 @@ label {
     font-weight: bold;
 }
 
+.card-block {
+    background-color: #E1E8ED; /*#58ACFA;*/
+}
 .buttonNewClient {
     margin-bottom: 10px;
 }
