@@ -52,8 +52,8 @@ label {
     font-weight: bold;
 }
 .card-color {
-    background-color: #58ACFA;
-    color: white;
+    background-color: #e0e0d1; /*#58ACFA;*/
+    color: black;
     font-weight: bold;
 }
 
