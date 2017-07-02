@@ -340,12 +340,7 @@ export class AppComponent implements OnInit {
             alert('Error, cantidad de pago no es un número');
             return;
         }
-        // Check if exist a client
-        if (this.currentIdClient == '0') {
-            alert('Error, Elegir un cliente');
-            return;
-        }
-               
+                       
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         let requestOptions = new RequestOptions({ headers: headers });
