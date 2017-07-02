@@ -11,7 +11,8 @@ var sale_schema = new Schema({
     gasreceived: Number,
     totalpaid: Number,
     totalreal: Number,
-    remark: String
+    remark: String,
+    completename: String
 });
 
 

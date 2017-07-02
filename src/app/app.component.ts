@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
 
     client = new Client('0', '', '', '', '35');
     data: string;
-    sale = new Sale('', '', 0, 0, 0, 0, '');
+    sale = new Sale('', '', 0, 0, 0, 0, '', '');
     sale_data: string;
     histories;
     allclients;
@@ -132,6 +132,7 @@ export class AppComponent implements OnInit {
         this.sale.totalpaid = this.payAmount;
         this.sale.totalreal = sellBallons*this.client_fixprice;
         this.sale.remark = this.commenText;
+        this.sale.completename = this.client.completename;
 
         this.sale_data = JSON.stringify(this.sale);
         this.http.post('/api/sales', this.sale_data, requestOptions).subscribe(res => {
@@ -182,6 +183,13 @@ export class AppComponent implements OnInit {
         this.updateInfoClient(idClient);  
     }
 
+    showAllHistory() {
+        this.http.get('/api/sales').subscribe(res => {
+            let result = res.json();
+            this.drawHistory(result);
+        });
+    }
+
     updateInfoClient(idClient) {
         let client_api = '/api/clients/' + idClient;
         this.http.get(client_api).subscribe(res => {
@@ -205,38 +213,41 @@ export class AppComponent implements OnInit {
         let sale_client_api = '/api/sales/' + idClient;
         this.http.get(sale_client_api).subscribe(res => {
             let result = res.json();
-            //Case result if different of null fill the information
-            this.histories = [];
-            //variable to calculate ballonSells
-            let ballonSells_amount = 0;
-            let ballonReceived_amount = 0;
-            let money_pay = 0;
-            let money_total_real = 0;
-            let last_day_buy = '';
-            if (result.length > 0) {
-                //Ok fill the table with information
-                for(let i = 0; i < result.length; i++) {
-                    money_pay += result[i].totalpaid;
-                    money_total_real += result[i].totalreal;
-                    if (result[i].gassell == 0) {
-                        result[i].gassell = '';
-                        result[i].totalreal = '';
-                        result[i].doubt = '';
-                    } else {
-                        ballonSells_amount += result[i].gassell;
-                        last_day_buy = result[i].date;
-                        result[i].doubt = result[i].totalreal - result[i].totalpaid;
-                    }
-                    ballonReceived_amount += result[i].gasreceived;
-                    this.histories.push(result[i]);
-                }
-            }
-            this.lastDateSell = last_day_buy;
-            this.ballonsDoubt = ballonSells_amount - ballonReceived_amount;
-            this.moneyDoubt = money_total_real - money_pay;
-            
+            //Case result if different of null fill the information  
+            this.drawHistory(result);  
         });
     }
+
+    drawHistory(result) {
+        this.histories = [];
+        //variable to calculate ballonSells
+        let ballonSells_amount = 0;
+        let ballonReceived_amount = 0;
+        let money_pay = 0;
+        let money_total_real = 0;
+        let last_day_buy = '';
+        if (result.length > 0) {
+            //Ok fill the table with information
+            for(let i = 0; i < result.length; i++) {
+                money_pay += result[i].totalpaid;
+                money_total_real += result[i].totalreal;
+                if (result[i].gassell == 0) {
+                    result[i].gassell = '';
+                    result[i].totalreal = '';
+                    result[i].doubt = '';
+                } else {
+                    ballonSells_amount += result[i].gassell;
+                    last_day_buy = result[i].date;
+                    result[i].doubt = result[i].totalreal - result[i].totalpaid;
+                }
+                ballonReceived_amount += result[i].gasreceived;
+                this.histories.push(result[i]);
+            }
+        }
+        this.lastDateSell = last_day_buy;
+        this.ballonsDoubt = ballonSells_amount - ballonReceived_amount;
+        this.moneyDoubt = money_total_real - money_pay;
+    } 
 
     /**
      *    When tha page is loaded, get all clients

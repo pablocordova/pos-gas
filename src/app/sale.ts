@@ -8,6 +8,7 @@ export class Sale{
         public gasreceived: Number,
         public totalpaid: Number,
         public totalreal: Number,
-        public remark: String
+        public remark: String,
+        public completename: String
     ){}
 }

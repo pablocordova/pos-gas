@@ -15,6 +15,7 @@ router.post('/', function(req, res) {
     sale.totalpaid = req.body.totalpaid;
     sale.totalreal = req.body.totalreal;
     sale.remark = req.body.remark;
+    sale.completename = req.body.completename;
 
     sale.save().then(function() {
         var result = JSON.stringify({ result: 'success' });
@@ -34,24 +35,12 @@ router.get('/:id', function(req, res) {
     });
 });
 
-/*
-
-// To get sales of specific client
-router.get('/:id', function(req, res) {
+router.get('/', function(req, res) {
     let client_id = mongoose.Types.ObjectId(req.params.id);
-    if (req.params.id == '59593e1993c16c1b687c51df') {
-        Sales.find({ }, function(err, docs) {
-            if(err) return handleError(err);
-            return res.send(docs);
-        });
-    } else {
-        Sales.find({ clientid: client_id }, function(err, docs) {
-            if(err) return handleError(err);
-            return res.send(docs);
-        });
-    }
+    Sales.find({}, function(err, docs) {
+        if(err) return handleError(err);
+        return res.send(docs);
+    });
 });
-
-*/
 
 module.exports = router;

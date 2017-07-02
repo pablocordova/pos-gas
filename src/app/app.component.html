@@ -156,13 +156,21 @@
 
     <div class="card" *ngIf="history">
         <div class="card-header card-color">
-            HISTORIAL
+            <div class="row">
+                <div class="col-sm-10">
+                     HISTORIAL
+                </div>
+                <div class="col-sm-2">
+                    <input type="button" name="all" value="TODOS" class="btn btn-primary" (click)="showAllHistory()">
+                </div>
+            </div>
         </div>
         <div class="card-block">
             <table class="table" id="table-history">
                 <thead>
                     <tr>
                         <th>Fecha</th>
+                        <th>Nombre</th>
                         <th>Balones vendidos</th>
                         <th>Balones recibidos</th>
                         <th>Debio Pagar</th>
@@ -174,6 +182,7 @@
                 <tbody>
                     <tr *ngFor="let history of histories" class="table-history-rows">
                         <td [ngClass]="{colorBackgroundCell: history.gassell != '' }">{{history.date}}</td>
+                        <td [ngClass]="{colorBackgroundCell: history.gassell != '' }">{{history.completename}}</td>
                         <td [ngClass]="{colorBackgroundCell: history.gassell != '' }">{{history.gassell}}</td>
                         <td [ngClass]="{colorBackgroundCell: history.gassell != '' }">{{history.gasreceived}}</td>
                         <td [ngClass]="{colorBackgroundCell: history.gassell != '' }">{{history.totalreal}}</td>
