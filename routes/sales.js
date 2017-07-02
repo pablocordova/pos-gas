@@ -34,4 +34,24 @@ router.get('/:id', function(req, res) {
     });
 });
 
+/*
+
+// To get sales of specific client
+router.get('/:id', function(req, res) {
+    let client_id = mongoose.Types.ObjectId(req.params.id);
+    if (req.params.id == '59593e1993c16c1b687c51df') {
+        Sales.find({ }, function(err, docs) {
+            if(err) return handleError(err);
+            return res.send(docs);
+        });
+    } else {
+        Sales.find({ clientid: client_id }, function(err, docs) {
+            if(err) return handleError(err);
+            return res.send(docs);
+        });
+    }
+});
+
+*/
+
 module.exports = router;
