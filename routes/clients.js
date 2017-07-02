@@ -47,7 +47,7 @@ router.get('/', function(req, res) {
     Client.find({}, function(err, docs) {
         if(err) return handleError(err);
         res.send(docs);
-    });
+    }).sort({completename:1});
 });
 
 // To get one user
