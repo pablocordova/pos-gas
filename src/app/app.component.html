@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="col-sm-4 align-self-center">
                                         <button *ngIf="newClients" type="button" class="btn btn-primary buttonNewClient" data-toggle="modal" data-target="#modalWindow" (click)="statusButton(0)">Nuevo cliente</button>
-                                        <button *ngIf="modifyClients" type="button" class="btn btn-default" data-toggle="modal" data-target="#modalWindow" (click)="statusButton(1)">Modificar cliente</button>
+                                        <button *ngIf="modifyClients" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalWindow" (click)="statusButton(1)">Modificar cliente</button>
                                     </div>
                                 </div>
                                 
@@ -148,7 +148,7 @@
             <!-- save -->
             <div class="row save-button" *ngIf="buttonSave">
                 <div class="col-sm-12">
-                    <input type="button" name="save" class="btn btn-primary" value="GUARDAR" (click)="saveSale()">
+                    <input type="button" name="save" class="btn btn-success" value="GUARDAR" (click)="saveSale()">
                 </div>
             </div> 
         </div>
