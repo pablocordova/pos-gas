@@ -271,6 +271,7 @@ export class AppComponent implements OnInit {
                 this.payAmount = 0;
                 this.sellBallons = '1';
         		this.receivedBallons = '1';
+        		this.commenText = '';
                 break;
             case "pay":
                 this.optionSale = false;
@@ -289,6 +290,7 @@ export class AppComponent implements OnInit {
         		this.receivedBallons = '0';
                 this.modifyClients = false;
                 this.newClients = false;
+                this.commenText = '';
                 break;
             case "query":
                 this.clientForm = true;
