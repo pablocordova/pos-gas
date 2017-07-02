@@ -93,12 +93,27 @@ export class AppComponent implements OnInit {
         setTimeout(() => { this.verifySystem(); }, 1000);
     }
 
+    isNumber(n) {
+      return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
     /**
      *    To save sale
      */
 
     saveSale() {
 
+        // Check input 'pago' is correct
+        if(!this.isNumber(this.payAmount)) {
+            alert('Error, cantidad de pago no es un número');
+            return;
+        }
+
+        if (this.currentIdClient == '0') {
+            alert('Error, Elegir un cliente');
+            return;
+        }
+        
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         let requestOptions = new RequestOptions({ headers: headers });
@@ -316,6 +331,17 @@ export class AppComponent implements OnInit {
      *    To call an api to create or update data client
      */
     saveClient() {
+
+        // Check input 'pago' is correct
+        if(!this.isNumber(this.client.fixprice)) {
+            alert('Error, cantidad de pago no es un número');
+            return;
+        }
+        // Check if exist a client
+        if (this.currentIdClient == '0') {
+            alert('Error, Elegir un cliente');
+            return;
+        }
                
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
