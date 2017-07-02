@@ -66,6 +66,7 @@ export class AppComponent implements OnInit {
         this.payAmount = 0;
         this.sellBallons = '1';
         this.receivedBallons = '1';
+        
         // Here obtains all clients and fill in the combobox
         this.getClients();
         
@@ -105,11 +106,6 @@ export class AppComponent implements OnInit {
 
         let sellBallons = this.sellBallons;
         let receivedBallons = this.receivedBallons;
-        // I going to make the difference if is to sell gas or only pay
-        // When sellBallons is 0 meaning that this data is only a pay
-        if(!this.optionSale) {
-            sellBallons = 0;
-        }
 
         // Fill all data
         this.sale.date = this.currentTimeandDate;
@@ -272,6 +268,9 @@ export class AppComponent implements OnInit {
                 // hidde blocks
                 this.history = false;
                 this.modifyClients = false;
+                this.payAmount = 0;
+                this.sellBallons = '1';
+        		this.receivedBallons = '1';
                 break;
             case "pay":
                 this.optionSale = false;
@@ -285,7 +284,9 @@ export class AppComponent implements OnInit {
                 // rest block hidden
                 this.history = false;
                 this.payButton = false;
-
+                this.payAmount = 0;
+        		this.sellBallons = '0';
+        		this.receivedBallons = '0';
                 break;
             case "query":
                 this.clientForm = true;
@@ -295,6 +296,8 @@ export class AppComponent implements OnInit {
                 this.pay = false;
                 this.comment = false;
                 this.buttonSave = false;
+                this.payAmount = 0;
+
                 break;
         }
     }
