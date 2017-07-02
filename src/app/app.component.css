@@ -68,6 +68,16 @@ label {
 .save-button {
     margin-top: 20px;
 }
+
+.card-pay {
+    margin-bottom: 0px;
+}
+
+.card-comment-block {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
 /* To modify scroll*/
 
 ::-webkit-scrollbar {
